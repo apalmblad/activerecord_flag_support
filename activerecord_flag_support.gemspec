@@ -9,5 +9,5 @@ Gem::Specification.new do |s|
   s.files       = ["lib/activerecord_flag_support.rb", 'README']
   s.homepage    = 'http://github.com/apalmblae/activercord_flag_support'
   s.license     = 'MIT'
-  s.add_runtime_dependency 'activerecord', '~> 3'
+  s.add_runtime_dependency 'activerecord', '~> 3', '~> 4'
 end

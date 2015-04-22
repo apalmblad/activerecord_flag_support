@@ -33,7 +33,7 @@ module ActiveRecordFlagSupport
       cattr_accessor "#{field}_flag_hash"
       class_variable_set( "@@#{field}_flag_hash", method_hash )
       unless method_defined?( :set_flag )
-        class_eval("include FlagSupport::FlagInstanceMethods")
+        class_eval("include ActiveRecordFlagSupport::FlagInstanceMethods")
       end
     end
   end

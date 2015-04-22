@@ -1,0 +1,5 @@
+class Model <ActiveRecord::Base
+  define_flag_methods boolean: 1, some_flag: 2, other_flag: 4
+  define_flag_methods :column_not_called_flags, boolean: 1, some_flag: 2, other_flag: 4
+  define_flag_methods [:boolean, :flag_five, :flag_two]
+end

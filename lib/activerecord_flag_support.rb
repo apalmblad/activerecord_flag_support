@@ -10,7 +10,7 @@ module ActiveRecordFlagSupport
         method_hash = field
         field = :flags
       end
-      unless method_hash.is_a?( Hash )
+      unless method_hash.is_a?( Array )
         col = 1
         method_hash = method_hash.inject( {} ) do |m,x|
           m[x] = col
@@ -38,15 +38,28 @@ module ActiveRecordFlagSupport
     end
   end
   module FlagInstanceMethods
-    # ------------------------------------------------------------------- set_flag
-    def set_flag( field, value, bit_field )
-      if value && ActiveRecord::ConnectionAdapters::Column.value_to_boolean( value )
-        ( send(field).to_i | bit_field ) 
-      else
-        ( send(field).to_i & (~bit_field) ) 
+    if ActiveRecord::ConnectionAdapters::Column.respond_to?( :value_to_boolean )
+      # ------------------------------------------------------------------- set_flag
+      def set_flag( field, value, bit_field )
+        if value && ActiveRecord::ConnectionAdapters::Column.value_to_boolean( value )
+          ( send(field).to_i | bit_field ) 
+        else
+          ( send(field).to_i & (~bit_field) ) 
+        end
+        self.send( "#{field}=", value )
+        attributes_before_type_cast[field] = value
       end
-      self.send( "#{field}=", value )
-      attributes_before_type_cast[field] = value
+    else
+      # ------------------------------------------------------------------- set_flag
+      def set_flag( field, value, bit_field )
+        if value && ActiveRecord::Type::Boolean.new.send( :cast_value, value )
+          ( send(field).to_i | bit_field ) 
+        else
+          ( send(field).to_i & (~bit_field) ) 
+        end
+        self.send( "#{field}=", value )
+        attributes_before_type_cast[field] = value
+      end
     end
   end
 end

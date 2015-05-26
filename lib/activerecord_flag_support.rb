@@ -10,7 +10,7 @@ module ActiveRecordFlagSupport
         method_hash = field
         field = :flags
       end
-      unless method_hash.is_a?( Array )
+      unless method_hash.is_a?( Hash )
         col = 1
         method_hash = method_hash.inject( {} ) do |m,x|
           m[x] = col

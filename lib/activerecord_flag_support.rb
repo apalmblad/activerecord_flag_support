@@ -52,7 +52,7 @@ module ActiveRecordFlagSupport
     else
       # ------------------------------------------------------------------- set_flag
       def set_flag( field, value, bit_field )
-        if value && ActiveRecord::Type::Boolean.new.send( :cast_value, value )
+        value = if value && ActiveRecord::Type::Boolean.new.send( :cast_value, value )
           ( send(field).to_i | bit_field ) 
         else
           ( send(field).to_i & (~bit_field) ) 

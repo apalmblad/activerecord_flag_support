@@ -41,7 +41,7 @@ module ActiveRecordFlagSupport
     if ActiveRecord::ConnectionAdapters::Column.respond_to?( :value_to_boolean )
       # ------------------------------------------------------------------- set_flag
       def set_flag( field, value, bit_field )
-        if value && ActiveRecord::ConnectionAdapters::Column.value_to_boolean( value )
+        value = if value && ActiveRecord::ConnectionAdapters::Column.value_to_boolean( value )
           ( send(field).to_i | bit_field ) 
         else
           ( send(field).to_i & (~bit_field) ) 

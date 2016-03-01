@@ -18,13 +18,12 @@ module ActiveRecordFlagSupport
           m
         end
       end
-
       method_hash.each_pair do |key,value|
-        class_eval( "def #{key}\n return ( #{field} & #{value} ) == #{value}; end" )
-        class_eval( "def #{key}=(v)\n old_value = #{key}; set_flag( :#{field}, v, #{value} ); if old_value != #{key}\n@#{key}_was_changed = true;\nend\n end" )
-        class_eval( "def #{key}_changed?\n new_record? || @#{key}_was_changed\n end" )
-        class_eval( "def #{key}?\n return ( #{field} & #{value} ) == #{value}; end" )
-        class_eval( "def update_#{key}(v)\n set_flag( :#{field}, v, #{value} ); update_attribute( :#{field}, self.#{field} ); end" )
+        class_eval( "def #{key}\n return ( #{field} & #{value} ) == #{value}; end", __FILE__, __LINE__ )
+        class_eval( "def #{key}=(v)\n old_value = #{key}; set_flag( :#{field}, v, #{value} ); if old_value != #{key}\n@#{key}_was_changed = true;\nend\n end", __FILE__, __LINE__ )
+        class_eval( "def #{key}_changed?\n new_record? || @#{key}_was_changed\n end", __FILE__, __LINE__ )
+        class_eval( "def #{key}?\n return ( #{field} & #{value} ) == #{value}; end", __FILE__, __LINE__ )
+        class_eval( "def update_#{key}(v)\n set_flag( :#{field}, v, #{value} ); update_attribute( :#{field}, self.#{field} ); end", __FILE__, __LINE__ )
         konst = "%s_MASK" % key.upcase
         unless const_defined?( konst )
           const_set( konst, value )

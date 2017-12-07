@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'activerecord_flag_support'
-  s.version     = '0.0.12'
+  s.version     = '0.0.14'
   s.date        = '2017-12-07'
   s.summary     = 'Boolean flag support for active record'
   s.description = 'Provide an easy way to define boolean getters and settings on an integer column in active record objects.'

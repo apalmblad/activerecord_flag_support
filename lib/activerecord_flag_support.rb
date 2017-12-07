@@ -36,7 +36,7 @@ module ActiveRecordFlagSupport
       class_eval("def #{key}=(v)\n old_value = #{key}; set_flag(:#{field}, "\
                  "v, #{value}); if old_value != #{key}\n@#{key}_was_changed="\
                  "true;\nend\n end", __FILE__, __LINE__)
-      class_eval('attr_reader :{key}_was_changed', __FILE__, __LINE__)
+      class_eval("attr_reader :{key}_was_changed", __FILE__, __LINE__)
       class_eval("def #{key}_changed?\n new_record? || #{key}_was_changed\n "\
                  'end', __FILE__, __LINE__)
       class_eval("def #{key}?\n return (#{field} & #{value}) == #{value}; "\

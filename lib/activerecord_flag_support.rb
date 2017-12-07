@@ -17,7 +17,7 @@ module ActiveRecordFlagSupport
         method_hash = method_hash_from_array(method_hash)
       end
       method_hash.each_pair do |key, value|
-        define_methods_for_flag(key, value)
+        define_methods_for_flag(key, value, field)
         add_flag_const(key, value)
       end
       setup_flag_class(field, method_hash)
@@ -30,7 +30,7 @@ module ActiveRecordFlagSupport
     ############################################################################
 
     # ------------------------------------------------------ define_flag_methods
-    def define_methods_for_flag(key, value)
+    def define_methods_for_flag(key, value, field)
       class_eval("def #{key}\n return (#{field} & #{value}) == #{value}; end",
                  __FILE__, __LINE__)
       class_eval("def #{key}=(v)\n old_value = #{key}; set_flag(:#{field}, "\
